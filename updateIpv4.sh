@@ -26,7 +26,7 @@ fi
 externalIpv4Add=$(getIpv4Address)
 echo "Get external ipv4 address: $externalIpv4Add"
 
-currentStat=$(listRecord "$zoneId" "$recordName" "$apiKey")
+currentStat=$(listRecord "$zoneId" "$recordName" "$apiKey" "A")
 if [ $? -eq 1 ]; then
   echo "listRecord failed"
   exit

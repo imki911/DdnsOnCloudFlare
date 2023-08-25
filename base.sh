@@ -56,14 +56,14 @@ listRecord() {
   local zoneId=$1
   local recordName=$2
   local apiKey=$3
+  local type=$4
   local result=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$zoneId/dns_records?name=$recordName" \
     -H "Content-Type:application/json" \
     -H "Authorization: Bearer $apiKey")
 
-  local resourceId=$(echo "$result" | grep -Po '(?<="id":")[^"]+')
-  local currentValue=$(echo "$result" | grep -Po '(?<="content":")[^"]+')
-
-  local successStat=$(echo "$result" | grep -Po '(?<="success":)[^,]+')
+  local resourceId=$(echo "$result" | jq -r ".result[] | select(.type == \"$type\") | .id")
+  local currentValue=$(echo "$result" | jq -r ".result[] | select(.type == \"$type\") | .content")
+  local successStat=$(echo "$result" | jq ".success")
   if [ "$successStat" != "true" ]; then
     return 1
   fi

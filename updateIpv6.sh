@@ -26,7 +26,7 @@ fi
 externalIpv6Add=$(getIpv6Address)
 echo "Get external ipv6 address: $externalIpv6Add"
 
-currentStat=$(listRecord "$zoneId" "$recordName" "$apiKey")
+currentStat=$(listRecord "$zoneId" "$recordName" "$apiKey" "AAAA")
 if [ $? -eq 1 ]; then
   echo "listRecord failed, Exit"
   exit 1
